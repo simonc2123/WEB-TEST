@@ -1,0 +1,45 @@
+# Archivos de configuración de entorno
+.env
+.env.local
+.env.*.local
+
+# Archivos binarios generados por Go
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+
+# Directorios de compilación de Go
+bin/
+build/
+
+# Caché y módulos de Go
+/go/
+*.mod
+*.sum
+
+# Archivos de dependencias
+vendor/
+
+# Archivos de Vue
+node_modules/
+dist/
+*.log
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración de editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Otros archivos temporales
+*.tmp
+*.bak
+*.old
+*.save
+*.orig
