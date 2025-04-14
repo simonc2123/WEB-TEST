@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	
 )
 
 type StockItem struct {
@@ -29,7 +28,7 @@ type APIResponse struct {
 
 func FetchAllStockData() ([]StockItem, error) {
 	apiKey := os.Getenv("API_KEY")
-	baseUrl := "https://8j5baasof2.execute-api.us-west-2.amazonaws.com/production/swechallenge/list"
+	baseUrl := os.Getenv("API_URL")
 
 	var allItems []StockItem
 	nextPage:= ""
