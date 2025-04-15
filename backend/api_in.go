@@ -6,6 +6,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -17,7 +18,12 @@ import (
 func parseMonetaryValue(value string) (float64, error) {
 	cleanedValue := strings.ReplaceAll(value, "$", "")
 	cleanedValue = strings.ReplaceAll(cleanedValue, ",", "")
-	return strconv.ParseFloat(cleanedValue, 64)
+	parsedValue, err := strconv.ParseFloat(cleanedValue, 64)
+	if err != nil {
+		log.Println("Error parsing monetary value '%s': %v", value, err)
+		return 0, err
+	}
+	return parsedValue, nil
 }
 
 func main() {
@@ -26,8 +32,8 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-
 	r := gin.Default()
+	r.SetTrustedProxies([]string{"127.0.0.1"})
 	// Endpoint to fetch all stock data
 	r.GET("/api/stocks", func(c *gin.Context) {
 		// Connect to the database
@@ -62,12 +68,22 @@ func main() {
 				log.Println("Error scanning row:", err)
 				continue
 			}
+
+			//Data cleaning
+			targetFrom, err := parseMonetaryValue(stock.TargetFrom)
+			targetTo, err := parseMonetaryValue(stock.TargetTo)
+
+			stock.TargetFrom = fmt.Sprintf("%.2f", targetFrom)
+			stock.TargetTo = fmt.Sprintf("%.2f", targetTo)
+
 			stocks = append(stocks, stock)
 		}
+
 		c.JSON(http.StatusOK, stocks) // Return the stock data as JSON
+
 	})
 
-	r.GET("/api/recomendations", func(c *gin.Context) {
+	r.GET("/api/recommendations", func(c *gin.Context) {
 		// Connect to the database
 		conn, ctx, err := db.ConnectDB()
 		if err != nil {
@@ -75,14 +91,14 @@ func main() {
 		}
 		defer conn.Close(ctx) // Close the connection when done
 
-		// Fetch recomendations from the database
+		// Fetch recommendations from the database
 		rows, err := conn.Query(ctx, `
 			SELECT ticker, company, brokerage, action, rating_from, rating_to, target_from, target_to, time
         	FROM stock_items
 		`)
 		if err != nil {
-			log.Fatal("Error fetching recomendations:", err)
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch recomendations"})
+			log.Fatal("Error fetching recommendations:", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch recommendations"})
 			return
 		}
 
@@ -106,6 +122,13 @@ func main() {
 				log.Println("Error scanning row:", err)
 				continue
 			}
+
+			//Data cleaning
+			targetFrom, err := parseMonetaryValue(stock.TargetFrom)
+			targetTo, err := parseMonetaryValue(stock.TargetTo)
+
+			stock.TargetFrom = fmt.Sprintf("%.2f", targetFrom)
+			stock.TargetTo = fmt.Sprintf("%.2f", targetTo)
 
 			stocks = append(stocks, stock)
 		}
