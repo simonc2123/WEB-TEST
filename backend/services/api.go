@@ -1,3 +1,5 @@
+// API service to fetch stock data from an external API
+// and store it in a PostgreSQL database.
 package services
 
 import (
@@ -7,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 type StockItem struct {
@@ -18,7 +21,8 @@ type StockItem struct {
 	RatingTo string `json:"rating_to"`
 	TargetFrom string `json:"target_from"`
 	TargetTo string `json:"target_to"`
-	Time string `json:"time"`
+	Time time.Time `json:"time"`
+	TargetIncrease float64 `json:"target_increase,omitempty"`
 }
 
 type APIResponse struct {
