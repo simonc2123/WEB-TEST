@@ -13,21 +13,21 @@ import (
 )
 
 type StockItem struct {
-	Ticker string `json:"ticker"`
-	Company string `json:"company"`
-	Brokerage string `json:"brokerage"`
-	Action string `json:"action"`
-	RatingFrom string `json:"rating_from"`
-	RatingTo string `json:"rating_to"`
-	TargetFrom string `json:"target_from"`
-	TargetTo string `json:"target_to"`
-	Time time.Time `json:"time"`
-	TargetIncrease float64 `json:"target_increase,omitempty"`
+	Ticker         string    `json:"ticker"`
+	Company        string    `json:"company"`
+	Brokerage      string    `json:"brokerage"`
+	Action         string    `json:"action"`
+	RatingFrom     string    `json:"rating_from"`
+	RatingTo       string    `json:"rating_to"`
+	TargetFrom     string    `json:"target_from"`
+	TargetTo       string    `json:"target_to"`
+	Time           time.Time `json:"time"`
+	TargetIncrease float64   `json:"target_increase,omitempty"`
 }
 
 type APIResponse struct {
-	Items []StockItem `json:"items"`
-	NextPage string `json:"next_page"`
+	Items    []StockItem `json:"items"`
+	NextPage string      `json:"next_page"`
 }
 
 func FetchAllStockData() ([]StockItem, error) {
@@ -35,7 +35,7 @@ func FetchAllStockData() ([]StockItem, error) {
 	baseUrl := os.Getenv("API_URL")
 
 	var allItems []StockItem
-	nextPage:= ""
+	nextPage := ""
 
 	for {
 
@@ -52,7 +52,7 @@ func FetchAllStockData() ([]StockItem, error) {
 
 		req.Header.Add("Authorization", "Bearer "+apiKey)
 		req.Header.Add("Content-Type", "application/json")
-		
+
 		client := &http.Client{}
 		httpResp, err := client.Do(req)
 		if err != nil {

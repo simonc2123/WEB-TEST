@@ -1,11 +1,11 @@
 package main
 
 import (
-    "log"
-    "os"
+	"log"
+	"os"
 
-    "github.com/simonc2123/WEB_TEST/backend/db"
-    "github.com/joho/godotenv"
+	"github.com/joho/godotenv"
+	"github.com/simonc2123/WEB_TEST/backend/db"
 	"github.com/simonc2123/WEB_TEST/backend/services"
 )
 
@@ -32,5 +32,5 @@ func main() {
 	db.InsertData(conn, ctx, stocks) // Insert data into the database
 
 	log.Println("Data inserted successfully")
-	os.Exit(0)// Exit with success status code
+	os.Exit(0) // Exit with success status code
 }

@@ -1,17 +1,17 @@
 package db
 
 import (
-    "context"
-    "log"
-    "os"
+	"context"
+	"log"
+	"os"
 
-    "github.com/jackc/pgx/v4"
-    "github.com/simonc2123/WEB_TEST/backend/services"
+	"github.com/jackc/pgx/v4"
+	"github.com/simonc2123/WEB_TEST/backend/services"
 )
 
 func ConnectDB() (*pgx.Conn, context.Context, error) {
 	// Connect to the database
-	dsn := os.Getenv("DB_URL")// Url to connect to the database
+	dsn := os.Getenv("DB_URL") // Url to connect to the database
 	if dsn == "" {
 		log.Fatal("DB_URL environment variable is not set")
 	}

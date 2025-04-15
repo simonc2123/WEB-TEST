@@ -1,12 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"sort"
 	"strconv"
 	"strings"
-	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
