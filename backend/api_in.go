@@ -95,6 +95,7 @@ func main() {
 		rows, err := conn.Query(ctx, `
 			SELECT ticker, company, brokerage, action, rating_from, rating_to, target_from, target_to, time
         	FROM stock_items
+			WHERE DATE(time) = CURRENT_DATE
 		`)
 		if err != nil {
 			log.Fatal("Error fetching recommendations:", err)

@@ -30,7 +30,5 @@ func main() {
 	}
 
 	db.InsertData(conn, ctx, stocks) // Insert data into the database
-
-	log.Println("Data inserted successfully")
 	os.Exit(0) // Exit with success status code
 }

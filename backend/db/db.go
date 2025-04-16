@@ -30,6 +30,7 @@ func InsertData(conn *pgx.Conn, ctx context.Context, stocks []services.StockItem
 		_, err := conn.Exec(ctx, `
 		INSERT INTO stock_items (ticker, company, brokerage, action, rating_from, rating_to, target_from, target_to, time)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+		ON CONFLICT (ticker, time) DO NOTHING
 	`, stock.Ticker, stock.Company, stock.Brokerage, stock.Action, stock.RatingFrom, stock.RatingTo, stock.TargetFrom, stock.TargetTo, stock.Time)
 		if err != nil {
 			log.Println("Error inserting stock item:", err)

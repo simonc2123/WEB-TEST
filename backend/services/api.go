@@ -5,7 +5,7 @@ package services
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -62,7 +62,7 @@ func FetchAllStockData() ([]StockItem, error) {
 
 		defer httpResp.Body.Close()
 
-		body, err := ioutil.ReadAll(httpResp.Body)
+		body, err := io.ReadAll(httpResp.Body)
 		if err != nil {
 			log.Println("Error reading httpResponse body:", err)
 			return nil, err
